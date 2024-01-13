@@ -1,20 +1,16 @@
 import React from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Home from './components/Home/Home';
-// import Team from './components/Team/Team';
-import SigninGoogle from './components/SigninGoogle/SigninGoogle';
+import { Routes, Route } from "react-router-dom";
+import {Home, Signin,Team} from './components';
 
 
 const App = () => {
   return (
-    <>
-      <SigninGoogle />
-      {/* <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/team" component={Team} />
-        </Switch>
-      </Router> */}
+    <> 
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/team" element={<Team />} />
+      </Routes>
     </>
   );
 };
