@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import ReactDOM from 'react-dom';
+import { GoogleLogin } from 'react-google-login';
 
 const SigninGoogle = () => {
   const [filePath, setFilePath] = useState("")
@@ -20,6 +22,10 @@ const SigninGoogle = () => {
   const [venue, setVenue] = useState("");
 
   const [update, setUpdate] = useState(true)
+
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
 
   useEffect(() => {},[update])
 
@@ -71,7 +77,14 @@ const SigninGoogle = () => {
         e.preventDefault();
         await createEvent();
       }}>
-        <button>Sign In With Google</button>
+        {/* Google Sign-In button */}
+        <GoogleLogin
+          clientId="YOUR_GOOGLE_CLIENT_ID"
+          buttonText="Sign in with Google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+        />
         <br />
         <h4>Poster Image</h4>
         <input type="file" name="image" id="" onChange={handleFileChange}/>
