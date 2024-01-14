@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
-import {Home, Signin,Team} from './components';
+import {Home, Event,Team, Module} from './components';
 
 
 const App = () => {
@@ -8,8 +8,9 @@ const App = () => {
     <> 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/event" element={<Event />} />
         <Route path="/team" element={<Team />} />
+        <Route path="/module" element={<Module />} />
       </Routes>
     </>
   );
