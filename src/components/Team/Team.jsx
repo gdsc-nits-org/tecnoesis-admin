@@ -19,7 +19,7 @@ const Team = () => {
 
   const handleViewTeamByEvents = async () => {
     try {
-      const response = await fetch('/api/team/events'); 
+      const response = await fetch('/api/team/event/:eventId/registered_teams'); 
       const data = await response.json();
 
       setTeamByEvents(data);
