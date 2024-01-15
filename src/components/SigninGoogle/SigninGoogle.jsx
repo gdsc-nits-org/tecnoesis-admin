@@ -77,7 +77,7 @@ const SigninGoogle = () => {
         e.preventDefault();
         await createEvent();
       }}>
-        {/* Google Sign-In button */}
+        
         <GoogleLogin
           clientId="YOUR_GOOGLE_CLIENT_ID"
           buttonText="Sign in with Google"
