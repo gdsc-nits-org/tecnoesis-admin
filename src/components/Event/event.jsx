@@ -1,10 +1,6 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import ReactDOM from 'react-dom';
-import { GoogleLogin } from 'react-google-login';
+import { useEffect, useState } from "react";
 
-const SigninGoogle = () => {
+const Event = () => {
   const [filePath, setFilePath] = useState("")
   const [description, setDescription] = useState("");
   const [attIncentive, setAttIncentive] = useState(0);
@@ -22,11 +18,6 @@ const SigninGoogle = () => {
   const [venue, setVenue] = useState("");
 
   const [update, setUpdate] = useState(true)
-
-  const responseGoogle = (response) => {
-    console.log(response);
-  }
-
   useEffect(() => {},[update])
 
   const createEvent = async () => {
@@ -35,7 +26,7 @@ const SigninGoogle = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Beared 1000000",
+        Authorization: "Bearer 1000000",
       },
       body: JSON.stringify({
         description: description,
@@ -205,4 +196,4 @@ const SigninGoogle = () => {
   );
 };
 
-export default SigninGoogle;
+export default Event;

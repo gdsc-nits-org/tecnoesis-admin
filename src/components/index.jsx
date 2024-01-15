@@ -1,5 +1,7 @@
 import Home from "./Home/Home";
-import Signin from "./SigninGoogle/SigninGoogle";
+import Event from "./Event/event";
 import Team from "./Team/Team";
+import Module from "./Module/Module";
 
-export { Home, Signin ,Team};
+
+export { Home, Event ,Team, Module};
