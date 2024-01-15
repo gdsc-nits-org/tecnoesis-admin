@@ -6,7 +6,7 @@ const Team = () => {
 
   const handleViewTeamDetails = async () => {
     try {
-      const response = await fetch('/api/team/:teamId'); // Update the endpoint
+      const response = await fetch('/api/team/:teamId'); 
       const data = await response.json();
 
       setTeamDetails(data);
@@ -19,7 +19,7 @@ const Team = () => {
 
   const handleViewTeamByEvents = async () => {
     try {
-      const response = await fetch('/api/team/events'); // Update the endpoint
+      const response = await fetch('/api/team/events'); 
       const data = await response.json();
 
       setTeamByEvents(data);
