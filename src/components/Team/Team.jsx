@@ -2,48 +2,33 @@ import React, { useState } from 'react';
 
 const Team = () => {
   const [teamDetails, setTeamDetails] = useState(null);
+  const [teamByEvents, setTeamByEvents] = useState(null);
 
   const handleViewTeamDetails = async () => {
     try {
-      const response = await fetch('GET /:teamId'); 
+      const response = await fetch('/api/team/:teamId'); // Update the endpoint
       const data = await response.json();
 
-      
       setTeamDetails(data);
 
-     
       console.log('Team Details:', data);
     } catch (error) {
       console.error('Error fetching team details:', error.message);
     }
   };
 
-  // const handleChangeTeamData = async () => {
-  //   try {
-      
-  //     console.log('Changing team data...');
-  //   } catch (error) {
-  //     console.error('Error changing team data:', error.message);
-  //   }
-  // };
+  const handleViewTeamByEvents = async () => {
+    try {
+      const response = await fetch('/api/team/events'); // Update the endpoint
+      const data = await response.json();
 
-  // const handleRemoveMember = async () => {
-  //   try {
-      
-  //     console.log('Removing team member...');
-  //   } catch (error) {
-  //     console.error('Error removing team member:', error.message);
-  //   }
-  // };
+      setTeamByEvents(data);
 
-  // const handleRemoveTeam = async () => {
-  //   try {
-      
-  //     console.log('Removing team...');
-  //   } catch (error) {
-  //     console.error('Error removing team:', error.message);
-  //   }
-  // };
+      console.log('Team By Events:', data);
+    } catch (error) {
+      console.error('Error fetching team by events:', error.message);
+    }
+  };
 
   return (
     <div>
@@ -58,17 +43,15 @@ const Team = () => {
           <p>Team Members: {teamDetails.members.join(', ')}</p>
         </div>
       )}
-      {/* <div>
-        <button onClick={handleChangeTeamData}>Change Team Data</button>
+      <div>
+        <button onClick={handleViewTeamByEvents}>View Team By Events</button>
       </div>
       <br />
-      <div>
-        <button onClick={handleRemoveMember}>Remove Member</button>
-      </div>
-      <br />
-      <div>
-        <button onClick={handleRemoveTeam}>Remove Team</button>
-      </div> */}
+      {teamByEvents && (
+        <div>
+          {/* Display team by events data as needed */}
+        </div>
+      )}
     </div>
   );
 };
