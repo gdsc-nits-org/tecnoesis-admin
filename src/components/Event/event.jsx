@@ -68,15 +68,6 @@ const Event = () => {
         e.preventDefault();
         await createEvent();
       }}>
-        
-        <GoogleLogin
-          clientId="YOUR_GOOGLE_CLIENT_ID"
-          buttonText="Sign in with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
-        <br />
         <h4>Poster Image</h4>
         <input type="file" name="image" id="" onChange={handleFileChange}/>
         <br />
