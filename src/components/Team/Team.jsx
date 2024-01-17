@@ -1,32 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Team = () => {
-  const [teamDetails, setTeamDetails] = useState(null);
-  const [teamByEvents, setTeamByEvents] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState('');
+  const [registeredTeams, setRegisteredTeams] = useState([]);
+  const [teamToDelete, setTeamToDelete] = useState('');
+  const [authToken, setAuthToken] = useState(''); // Set your auth token here
 
-  const handleViewTeamDetails = async () => {
+  useEffect(() => {
+    // Fetch events on component mount
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
     try {
-      const response = await fetch('/api/team/:teamId'); 
+      const response = await fetch('/api/event');
       const data = await response.json();
-
-      setTeamDetails(data);
-
-      console.log('Team Details:', data);
+      setEvents(data);
     } catch (error) {
-      console.error('Error fetching team details:', error.message);
+      console.error('Error fetching events:', error.message);
     }
   };
 
-  const handleViewTeamByEvents = async () => {
+  const handleEventChange = (event) => {
+    setSelectedEvent(event.target.value);
+    setRegisteredTeams([]); // Clear teams when selecting a new event
+  };
+
+  const handleViewRegisteredTeams = async () => {
     try {
-      const response = await fetch('/api/team/event/:eventId/registered_teams'); 
+      const response = await fetch(`/api/event/${selectedEvent}/registered_teams`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
       const data = await response.json();
+      setRegisteredTeams(data);
 
-      setTeamByEvents(data);
-
-      console.log('Team By Events:', data);
+      console.log('Registered Teams:', data);
     } catch (error) {
-      console.error('Error fetching team by events:', error.message);
+      console.error('Error fetching registered teams:', error.message);
+    }
+  };
+
+  const handleDeleteTeam = async () => {
+    try {
+      const response = await fetch(`/api/team/${teamToDelete}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+
+      if (response.ok) {
+        // Refresh the list of registered teams after deletion
+        handleViewRegisteredTeams();
+        console.log('Team deleted successfully.');
+      } else {
+        console.error('Error deleting team:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting team:', error.message);
     }
   };
 
@@ -34,22 +68,38 @@ const Team = () => {
     <div>
       <h1>Team Page</h1>
       <div>
-        <button onClick={handleViewTeamDetails}>View Team Details</button>
+        <label>Select Event: </label>
+        <select value={selectedEvent} onChange={handleEventChange}>
+          <option value="" disabled>Select an event</option>
+          {events.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.name}
+            </option>
+          ))}
+        </select>
       </div>
       <br />
-      {teamDetails && (
+      <div>
+        <button onClick={handleViewRegisteredTeams}>View Registered Teams</button>
+      </div>
+      <br />
+      {registeredTeams.length > 0 && (
         <div>
-          <p>Team Name: {teamDetails.name}</p>
-          <p>Team Members: {teamDetails.members.join(', ')}</p>
+          <h2>Registered Teams</h2>
+          <ul>
+            {registeredTeams.map((team) => (
+              <li key={team.id}>
+                Team Name: {team.name}{' '}
+                <button onClick={() => setTeamToDelete(team.id)}>Delete Team</button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
-      <div>
-        <button onClick={handleViewTeamByEvents}>View Team By Events</button>
-      </div>
-      <br />
-      {teamByEvents && (
+      {teamToDelete && (
         <div>
-          {/* Display team by events data as needed */}
+          <p>Are you sure you want to delete this team?</p>
+          <button onClick={handleDeleteTeam}>Confirm Delete</button>
         </div>
       )}
     </div>
