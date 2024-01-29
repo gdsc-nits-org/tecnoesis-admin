@@ -1,109 +1,26 @@
-import React, { useState, useEffect } from 'react';
-
-const Team = () => {
-  const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState('');
-  const [registeredTeams, setRegisteredTeams] = useState([]);
-  const [teamToDelete, setTeamToDelete] = useState('');
-  const [authToken, setAuthToken] = useState(''); // Set your auth token here
-
-  useEffect(() => {
-    // Fetch events on component mount
-    fetchEvents();
-  }, []);
-
-  const fetchEvents = async () => {
-    try {
-      const response = await fetch('/api/event');
-      const data = await response.json();
-      setEvents(data);
-    } catch (error) {
-      console.error('Error fetching events:', error.message);
-    }
-  };
-
-  const handleEventChange = (event) => {
-    setSelectedEvent(event.target.value);
-    setRegisteredTeams([]); // Clear teams when selecting a new event
-  };
-
-  const handleViewRegisteredTeams = async () => {
-    try {
-      const response = await fetch(`/api/event/${selectedEvent}/registered_teams`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-      });
-      const data = await response.json();
-      setRegisteredTeams(data);
-
-      console.log('Registered Teams:', data);
-    } catch (error) {
-      console.error('Error fetching registered teams:', error.message);
-    }
-  };
-
-  const handleDeleteTeam = async () => {
-    try {
-      const response = await fetch(`/api/team/${teamToDelete}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-      });
-
-      if (response.ok) {
-        // Refresh the list of registered teams after deletion
-        handleViewRegisteredTeams();
-        console.log('Team deleted successfully.');
-      } else {
-        console.error('Error deleting team:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error deleting team:', error.message);
-    }
-  };
-
+const Team = ({ team }) => {
   return (
     <div>
-      <h1>Team Page</h1>
-      <div>
-        <label>Select Event: </label>
-        <select value={selectedEvent} onChange={handleEventChange}>
-          <option value="" disabled>Select an event</option>
-          {events.map((event) => (
-            <option key={event.id} value={event.id}>
-              {event.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <br />
-      <div>
-        <button onClick={handleViewRegisteredTeams}>View Registered Teams</button>
-      </div>
-      <br />
-      {registeredTeams.length > 0 && (
-        <div>
-          <h2>Registered Teams</h2>
-          <ul>
-            {registeredTeams.map((team) => (
-              <li key={team.id}>
-                Team Name: {team.name}{' '}
-                <button onClick={() => setTeamToDelete(team.id)}>Delete Team</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {teamToDelete && (
-        <div>
-          <p>Are you sure you want to delete this team?</p>
-          <button onClick={handleDeleteTeam}>Confirm Delete</button>
-        </div>
-      )}
+      <h2>Team: {teamName}</h2>
+      <ul>
+        {members.map((member, index) => (
+          <li key={index}>
+            <div>Name: {member.name}</div>
+            <div>Email: {member.email}</div>
+            <div>Phone: {member.phone}</div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
+
+// Example usage:
+const teamName = "Engineering Team";
+const members = [
+  { name: "John Doe", email: "john@example.com", phone: "123-456-7890" },
+  { name: "Jane Smith", email: "jane@example.com", phone: "987-654-3210" },
+  // Add more members as needed
+];
 
 export default Team;

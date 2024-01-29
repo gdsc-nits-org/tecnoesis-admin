@@ -1,7 +1,8 @@
+import SignIn from "./SignIn/SignIn";
 import Home from "./Home/Home";
 import Event from "./Event/event";
-import Team from "./Team/Team";
+import Team from "../pages/TeamPage/TeamPage";
 import Module from "./Module/Module";
 
 
-export { Home, Event ,Team, Module};
+export { SignIn,Home, Event ,Team, Module};

@@ -1,0 +1,14 @@
+article{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    padding: 1rem;
+    margin-bottom: 0.3rem;
+    border: solid 1px black;
+    border-radius: 10px;
+}
+
+article:nth-child(2){
+    border: none;
+    margin-bottom: 0rem;
+    padding-bottom: 0.3rem;
+}
