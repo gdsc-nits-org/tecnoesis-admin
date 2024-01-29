@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie"
 
 const Event = () => {
   const [filePath, setFilePath] = useState("")
@@ -21,12 +22,13 @@ const Event = () => {
   useEffect(() => {},[update])
 
   const createEvent = async () => {
+    const token = Cookies.get("token");
     const res = await fetch("http://localhost:4000/api/event/create", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer 1000000",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         description: description,
@@ -37,7 +39,7 @@ const Event = () => {
         lng: longitude,
         maxTeamSize: parseInt(maxTeamSize),
         minTeamSize: parseInt(minTeamSize),
-        moduleId: parseInt(moduleId),
+        moduleId: String(moduleId),
         name: name,
         prizeDescription: prizeDescription,
         registrationEndTime: regEndTime,
