@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SignIn = () => {
   const auth = getAuth();
@@ -69,41 +70,11 @@ const SignIn = () => {
     }
   };
 
-  // const [admin, setAdmin] = useState(false);
-  // const navigate = useNavigate();
-
-  // const checkAdmin = async () => {
-  //   const token = Cookies.get("token");
-  //   console.log(token);
-  //   const res = await fetch("http://localhost:4000/api/auth/isAdmin", {
-  //     headers: {
-  //       Authorization: `bearer ${token}`,
-  //     },
-  //   });
-
-  //   if (res.status === 200) {
-  //     alert("Signin successfully");
-  //     Cookies.set("admin", true);
-  //     navigate("/home");
-  //   }
-  // };
-
-  // const provider = new GoogleAuthProvider();
-
-  // const signInWithGoogle = async () => {
-  //   await signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       result.user.getIdToken().then(async (t) => {
-  //         localStorage.setItem("token",t);
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   // checkAdmin();
-  // };
-
-  // console.log(`admin : ${admin}`);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/team");
+    }
+  }, []);
 
   return (
     <div>
