@@ -1,26 +1,20 @@
 const Team = ({ team }) => {
   return (
-    <div>
-      <h2>Team: {teamName}</h2>
-      <ul>
-        {members.map((member, index) => (
-          <li key={index}>
-            <div>Name: {member.name}</div>
-            <div>Email: {member.email}</div>
-            <div>Phone: {member.phone}</div>
-          </li>
+    <div className="team">
+      <h3 style={{paddingLeft: "1rem"}}>Team: {team.teamName}</h3>
+      <hr />
+      <div className="members">
+        {team.members.map((member, index) => (
+          <div className="member" key={index}>
+            <div className="member-details"><span>Name:</span> {member.user.firstName}</div>
+            <div className="member-details"><span>Email:</span> {member.user.email}</div>
+            <div className="member-details"><span>Phone:</span> {member.user.phoneNumber}</div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
 
-// Example usage:
-const teamName = "Engineering Team";
-const members = [
-  { name: "John Doe", email: "john@example.com", phone: "123-456-7890" },
-  { name: "Jane Smith", email: "jane@example.com", phone: "987-654-3210" },
-  // Add more members as needed
-];
 
 export default Team;

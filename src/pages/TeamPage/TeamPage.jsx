@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import "./TeamPage.css";
 import { useNavigate } from "react-router-dom";
 
-const Team = () => {
+import Team from "../../components/Team/Team";
+
+const TeamPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [registeredTeams, setRegisteredTeams] = useState([]);
@@ -14,6 +16,10 @@ const Team = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      alert("User must be logged in");
+      navigate("/");
+    }
     setAuthToken(
       localStorage.getItem("token") ? localStorage.getItem("token") : ""
     );
@@ -38,8 +44,7 @@ const Team = () => {
   };
 
   const handleViewRegisteredTeams = async () => {
-    if(selectedEvent === "")
-    {
+    if (selectedEvent === "") {
       alert("Select a event and then try again");
       return;
     }
@@ -60,7 +65,7 @@ const Team = () => {
         setRegisteredTeams(data.msg);
       } else {
         alert("You might not a organizer of the event or signin again");
-        localStorage.setItem("loggedin",0);
+        localStorage.setItem("loggedin", 0);
         localStorage.removeItem("token");
         navigate("/");
       }
@@ -90,9 +95,28 @@ const Team = () => {
     }
   };
 
+  const logout = () => {
+    localStorage.setItem("loggedin", 0);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+
   return (
     <div>
-      <h1>Team Page</h1>
+      <nav>
+        <h1>Team Page</h1>
+        <div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
+          >
+            Logout
+          </button>
+        </div>
+      </nav>
       <div>
         <label>Select Event: </label>
         <select value={selectedEvent} onChange={handleEventChange}>
@@ -116,30 +140,11 @@ const Team = () => {
       {registeredTeams.length > 0 ? (
         <div>
           <h2>Registered Teams</h2>
-          <ul>
+          <div className="teams">
             {registeredTeams.map((team) => (
-              <>
-                <li key={team.id}>
-                  Team Name: {team.teamName}{" "}
-                  {/* <button onClick={() => setTeamToDelete(team.id)}>
-                  Delete Team
-                </button> */}
-                </li>
-                <article>
-                  <div>Name</div>
-                  <div>Email</div>
-                  <div>Phone</div>
-                </article>
-                {team.members.map((member) => (
-                  <article key={member.id}>
-                    <div>{member.user.firstName}</div>
-                    <div>{member.user.email}</div>
-                    <div>{member.user.phoneNumber}</div>
-                  </article>
-                ))}
-              </>
+              <Team team={team} />
             ))}
-          </ul>
+          </div>
         </div>
       ) : (
         <></>
@@ -154,4 +159,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default TeamPage;
