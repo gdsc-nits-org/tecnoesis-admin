@@ -1,4 +1,4 @@
-article{
+/* article{
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     padding: 1rem;
@@ -11,4 +11,44 @@ article:nth-child(2){
     border: none;
     margin-bottom: 0rem;
     padding-bottom: 0.3rem;
+} */
+nav{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.teams{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+
+.team{
+    margin: 1rem;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.member{
+    padding: 1rem 1rem;
+    overflow-wrap: break-word;  
+    word-wrap: break-word; 
+    word-break: break-word;
+}
+
+.member-details{
+    margin-bottom: 0.2rem;
+}
+
+span{
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media (max-width:800px) {
+    .teams{
+        grid-template-columns: repeat(1,1fr);
+    }
+    
 }
