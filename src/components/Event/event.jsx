@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie"
 
 const Event = () => {
   const [filePath, setFilePath] = useState("")
