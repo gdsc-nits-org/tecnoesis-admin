@@ -64,10 +64,7 @@ const TeamPage = () => {
         const data = await response.json();
         setRegisteredTeams(data.msg);
       } else {
-        alert("You might not a organizer of the event or signin again");
-        localStorage.setItem("loggedin", 0);
-        localStorage.removeItem("token");
-        navigate("/");
+        alert("You might not be an organizer of the event or the session may expire!! Please logout and log in again");
       }
     } catch (error) {
       alert("Error fetching registerred teams");
