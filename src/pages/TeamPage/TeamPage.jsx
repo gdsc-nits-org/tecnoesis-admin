@@ -41,6 +41,7 @@ const TeamPage = () => {
   const handleEventChange = (event) => {
     setSelectedEvent(event.target.value);
     setRegisteredTeams([]); // Clear teams when selecting a new event
+    setShowResult(false);
   };
 
   const handleViewRegisteredTeams = async () => {
@@ -63,6 +64,7 @@ const TeamPage = () => {
       if (response.status === 200) {
         const data = await response.json();
         setRegisteredTeams(data.msg);
+        setShowResult(true);
       } else {
         alert("You might not be an organizer of the event or the session may expire!! Please logout and log in again");
       }
@@ -143,9 +145,11 @@ const TeamPage = () => {
             ))}
           </div>
         </div>
-      ) : (
-        <></>
-      )}
+      ) : showResult ? (
+        <>
+        <h2>No teams registered for this event yet.</h2>
+        </>
+      ) : <></>}
       {teamToDelete && (
         <div>
           <p>Are you sure you want to delete this team?</p>
